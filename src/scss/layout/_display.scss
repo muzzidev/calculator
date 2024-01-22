@@ -1,0 +1,17 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.display{
+  display: flex;
+  justify-content: end;
+  border-radius: 1rem;
+  background-color: v.$display;
+  width: 100%;
+  padding: 1rem .8rem;
+  overflow: hidden;
+  p{
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+  }
+}
