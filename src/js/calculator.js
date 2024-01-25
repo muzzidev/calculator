@@ -1,4 +1,3 @@
-
 // Asigno los elementos botones y el display a variables
 const botones = document.querySelectorAll('.button');
 const display = document.querySelector('.display');
@@ -53,7 +52,9 @@ function iniciarApp(){
       return replaces[matched];
     });
     let res = eval(digits.innerText)
-    digits.innerText = res;
+    
+    if (res === Infinity) res = "Error" ;
+    digits.innerText = res
     display.appendChild(digits);
 
   }
