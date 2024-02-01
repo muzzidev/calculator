@@ -5,7 +5,6 @@ const displayContainer = display.parentElement;
 let digits = document.createElement("P");
 let flag = 0;
 let res = 0;
-let err = false;
 
 document.addEventListener("DOMContentLoaded", () => {
   iniciarApp();
@@ -53,7 +52,6 @@ function iniciarApp() {
           ) {
             return;
           }
-          if (err === true) 
           addOne(boton);
         });
         break;
@@ -73,10 +71,8 @@ function operate() {
 
   if (res === Infinity || res === Error) {
     res = "Cannot divide by zero";
-    err = true;
   } else if (isNaN(res)){
     res = "Syntax Error";
-    err = true;
     console.log('isNaN');
   } 
 
