@@ -1,0 +1,21 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "Calculator with HTML, JS & Sass",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass src/scss:build/css",
+    "dev": "gulp dev"
+  },
+  "keywords": [
+    "calculator"
+  ],
+  "author": "Joaquín Darío Muzzi",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.69.7"
+  }
+}
