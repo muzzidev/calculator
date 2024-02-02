@@ -19,7 +19,15 @@ function iniciarApp() {
         boton.addEventListener("click", () => {
           addOne(boton);
           operadoresRepetidos = (digits.innerText.match(/[x÷+-]/g)).length;
+
+          if (err === 1) {
+            digits.innerText = "";
+            err = 0;
+            flag = 0;
+            addOne(boton);
+          }
         })
+        
         break;
       case "dot":
         boton.addEventListener("click", () => {
@@ -27,8 +35,15 @@ function iniciarApp() {
           if (dots > operadoresRepetidos) {
             return;
           }
-          addOne(boton);
-          dots++;
+          if (err === 1) {
+            digits.innerText = "";
+            err = 0;
+            flag = 0;
+            addOne(boton);
+          }else{
+            addOne(boton);
+            dots++;
+          }
         });
         break;
       case "c":
@@ -54,8 +69,15 @@ function iniciarApp() {
             display.appendChild(digits);
             return;
           }
-          operate();
-          display.scrollLeft = 0;
+          if (err === 1) {
+            digits.innerText = "";
+            err = 0;
+            flag = 0;
+            addOne(boton);
+          }else{
+            operate();
+            display.scrollLeft = 0;
+          }
         });
         break;
       default:
@@ -92,16 +114,19 @@ function operate() {
     return replaces[matched];
   });
   let res = eval(digits.innerText);
-
+  
   if (res === Infinity) {
     res = "Cannot divide by zero";
     err = 1;
+    digits.innerText = res;
   } else if (isNaN(res)) {
-    res = "Syntax Error";
+    res = "Syntax Error";    
     err = 1;
+    digits.innerText = res;
+  } else{
+    digits.innerText = Math.round(res * 10000) / 10000;
   }
 
-  digits.innerText = Math.round(res * 10000) / 10000;
   display.appendChild(digits);
 }
 function addOne(boton) {
