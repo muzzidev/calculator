@@ -5,6 +5,9 @@ const displayContainer = display.parentElement;
 let digits = document.createElement("P");
 let flag = 0;
 let res = 0;
+let err = 0;
+let operadoresRepetidos = [];
+let dots = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   iniciarApp();
@@ -12,6 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
 function iniciarApp() {
   botones.forEach((boton) => {
     switch (boton.id) {
+      case "operator":
+        boton.addEventListener("click", () => {
+          addOne(boton);
+          operadoresRepetidos = (digits.innerText.match(/[x÷+-]/g)).length;
+        })
+        break;
+      case "dot":
+        boton.addEventListener("click", () => {
+          console.log(operadoresRepetidos);
+          if (dots > operadoresRepetidos) {
+            return;
+          }
+          addOne(boton);
+          dots++;
+        });
+        break;
       case "c":
         boton.addEventListener("click", () => {
           dlt();
@@ -33,10 +52,10 @@ function iniciarApp() {
           ) {
             digits.innerText = "Syntax Error";
             display.appendChild(digits);
-            console.log("SyntaxError");
             return;
           }
           operate();
+          display.scrollLeft = 0;
         });
         break;
       default:
@@ -51,6 +70,11 @@ function iniciarApp() {
               ))
           ) {
             return;
+          }
+          if (err === 1) {
+            digits.innerText = "";
+            err = 0;
+            flag = 0;
           }
           addOne(boton);
         });
@@ -69,23 +93,24 @@ function operate() {
   });
   let res = eval(digits.innerText);
 
-  if (res === Infinity || res === Error) {
+  if (res === Infinity) {
     res = "Cannot divide by zero";
-  } else if (isNaN(res)){
+    err = 1;
+  } else if (isNaN(res)) {
     res = "Syntax Error";
-    console.log('isNaN');
-  } 
+    err = 1;
+  }
 
-  digits.innerText = res;
+  digits.innerText = Math.round(res * 10000) / 10000;
   display.appendChild(digits);
 }
 function addOne(boton) {
   flag++;
   digits.innerText += boton.innerText;
-  console.log(digits);
   display.appendChild(digits);
   defaultZero();
-  ajustarScroll();
+  // Ajustar el scroll cuando se añade un nuevo carácter al display
+  display.scrollLeft = display.scrollWidth - display.clientWidth;
 }
 function dlt(type = false) {
   if (!type) {
@@ -106,8 +131,4 @@ function defaultZero() {
     digits.innerText = digits.innerText.slice(1);
     flag--;
   }
-}
-// Ajustar el scroll cuando se añade un nuevo carácter al display
-function ajustarScroll() {
-  display.scrollLeft = display.scrollWidth - display.clientWidth;
 }
