@@ -60,12 +60,13 @@ function iniciarApp() {
         boton.addEventListener("click", () => {
           // Si el último caracter es un operador, no se hace nada.
           if (
-            ["x", "÷", "-", "+"].includes(
+            ["x", "÷", "-", "+", "="].includes(
               digits.innerText[digits.innerText.length - 1]
             ) ||
-            ["x", "÷", "-", "+"].includes(digits.innerText[0])
+            ["x", "÷", "-", "+", "="].includes(digits.innerText[0])
           ) {
             digits.innerText = "Syntax Error";
+            err = 1;
             display.appendChild(digits);
             return;
           }
@@ -73,7 +74,7 @@ function iniciarApp() {
             digits.innerText = "";
             err = 0;
             flag = 0;
-            addOne(boton);
+            defaultZero();
           }else{
             operate();
             display.scrollLeft = 0;
