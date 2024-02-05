@@ -6,6 +6,7 @@ let flag = 0; // Display vacío -> flag = 0
 let err = false; // Salta un error -> err = true
 let operadoresRepetidos = 0; // Operadores en total
 let points = 0; // Puntos en total
+let res = "s"; // Resultado
 document.addEventListener("DOMContentLoaded", () => {
   iniciarApp();
 });
@@ -20,24 +21,21 @@ function iniciarApp() {
         break;
       case "dot":
         boton.addEventListener("click", () => {
-          if (points > operadoresRepetidos) {
-            return;
-          } else {
-            addOne(boton);
-            points++;
-          }
+          try { eval(digits.innerText + boton.innerText) } catch { return };
+          addOne(boton);
+          points++;
         });
         break;
-      case "c":
+      case "del":
         boton.addEventListener("click", () => {
-          if (err || typeof res !== String) {
+          if (err || typeof res !== "string") {            
             resetDisplay();
           } else {
             dlt();
           }
         });
         break;
-      case "ac":
+      case "c":
         boton.addEventListener("click", () => {
           resetDisplay();
         });
@@ -84,7 +82,7 @@ function operate() {
     "÷": "/",
   };
   digits.innerText = digits.innerText.replace(/[x÷]/g, matched => replaces[matched]);
-  let res = eval(digits.innerText);
+  res = eval(digits.innerText);
   if (res === Infinity) {
     res = "Math Error";
     err = true;
