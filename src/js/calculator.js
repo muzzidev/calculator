@@ -6,10 +6,8 @@ let flag = 0; // Display vacío -> flag = 0
 let err = false; // Salta un error -> err = true
 let operadoresRepetidos = 0; // Operadores en total
 let points = 0; // Puntos en total
-let res = "s"; // Resultado
-document.addEventListener("DOMContentLoaded", () => {
-  iniciarApp();
-});
+let res = ""; // Resultado
+document.addEventListener("DOMContentLoaded", () => iniciarApp());
 function iniciarApp() {
   botones.forEach((boton) => {
     switch (boton.id) {
@@ -27,18 +25,10 @@ function iniciarApp() {
         });
         break;
       case "del":
-        boton.addEventListener("click", () => {
-          if (err || typeof res !== "string") {            
-            resetDisplay();
-          } else {
-            dlt();
-          }
-        });
+        boton.addEventListener("click", () => err ? resetDisplay() : dlt());
         break;
       case "c":
-        boton.addEventListener("click", () => {
-          resetDisplay();
-        });
+        boton.addEventListener("click", () => resetDisplay());
         break;
       case "equals":
         boton.addEventListener("click", () => {
@@ -51,16 +41,16 @@ function iniciarApp() {
           }
           if (err) {
             resetDisplay();
+            err = false;
             return;
           }
           operate();
           display.scrollLeft = 0;
+          flag = digits.innerText.length;
         });
         break;
       default:
-        boton.addEventListener("click", () => {
-          addOne(boton);
-        });
+        boton.addEventListener("click", () => addOne(boton));
         break;
     }
   });
