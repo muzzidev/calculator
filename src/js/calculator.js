@@ -4,8 +4,6 @@ const displayContainer = display.parentElement;
 let digits = document.createElement("P");
 let flag = 0; // Display vacío -> flag = 0
 let err = false; // Salta un error -> err = true
-let operadoresRepetidos = 0; // Operadores en total
-let points = 0; // Puntos en total
 let res = ""; // Resultado
 document.addEventListener("DOMContentLoaded", () => iniciarApp());
 function iniciarApp() {
@@ -19,9 +17,14 @@ function iniciarApp() {
         break;
       case "dot":
         boton.addEventListener("click", () => {
-          try { eval(digits.innerText + boton.innerText) } catch { return };
+          try {
+            let replaces = {
+              "x": "*",
+              "÷": "/",
+            };
+            eval((digits.innerText + boton.innerText).replace(/[x÷]/g, matched => replaces[matched]));
+          } catch {return};
           addOne(boton);
-          points++;
         });
         break;
       case "del":
@@ -105,14 +108,16 @@ function dlt() {
   defaults();
 }
 function defaults() {
-  if (flag === 0) {
+  console.log(flag);
+  if (flag < 0) {
+    flag = 0;
+  }
+  if (flag === 0){
     flag++;
     digits.innerText += "0";
     display.appendChild(digits);
-  } else if (flag > 0 && digits.innerText[0].includes("0")) {
-    digits.innerText = digits.innerText.slice(1);
+  } else if (flag > 0 && digits.innerText[0] === "0" && !(/[.x/*+-]/.test(digits.innerText))) {
+    digits.innerText = digits.innerText.slice(-1);
     flag--;
   }
-  operadoresRepetidos = digits.innerText.match(/[x÷+-]/g) !== null ? digits.innerText.match(/[x÷+-]/g).length : 0; // Se le asigna la cantidad de operadores que hay en la expresión completa a operadoresRepetidos
-  points = digits.innerText.match(/\./g) !== null ? digits.innerText.match(/\./g).length : 0; // Se le asigna la cantidad de puntos que hay en la expresión completa a points
 }
