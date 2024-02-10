@@ -116,7 +116,7 @@ function defaults() {
     flag++;
     digits.innerText += "0";
     display.appendChild(digits);
-  } else if (flag > 0 && digits.innerText[0] === "0" && !(/[.x/*+-]/.test(digits.innerText))) {
+  } else if (flag > 0 && digits.innerText[0] === "0" && !(/[.x÷+-]/.test(digits.innerText))) {
     digits.innerText = digits.innerText.slice(-1);
     flag--;
   }
